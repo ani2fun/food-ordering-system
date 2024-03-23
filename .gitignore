@@ -1,0 +1,46 @@
+### Gradle, Build ###
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IDE ###
+./.idea
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.vscode/
+**/*.DS_Store
+
+### LOGS ###
+**/logs/
+/version-catalog-producer/gradle.properties
+/gradle.properties
+
+### OPEN-API-GENERATED-FILES
+
+**/openapi-interface/pom.xml
+**/openapi-interface/README.md
+**/openapi-interface/.openapi-generator-ignore
+**/openapi-interface/src/
+**/openapi-interface/.openapi-generator/
+**/target/
+**/volumes/
+/.jpb/

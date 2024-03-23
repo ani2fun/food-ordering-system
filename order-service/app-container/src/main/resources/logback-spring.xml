@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="1 seconds">
+
+    <!-- PROPERTIES: START -->
+    <property name="APP_NAME" value="order-service"/>
+    <!-- Define the root directory for development -->
+    <property name="DEV_HOME" value="."/>
+    <!-- Define the log directory -->
+    <property name="LOG_PATH" value="${DEV_HOME}/logs"/>
+    <!-- Define the application log directory -->
+    <property name="APP_LOG_PATH" value="${LOG_PATH}/${APP_NAME}"/>
+    <!-- PROPERTIES: END -->
+
+    <!-- LOGGERS: START -->
+    <!-- Spring Logs -->
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod" level="DEBUG"/>
+
+    <!-- EppApi logs -->
+    <logger name="order-service" level="DEBUG"/>
+
+    <!-- Incoming request headers -->
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/>
+    <!-- Save to file specific logger -->
+    <logger name="com.food.ordering.system.order.service" level="DEBUG">
+        <appender-ref ref="SAVE-TO-FILE"/>
+    </logger>
+    <!-- Apache CXF services logs -->
+    <logger name="org.apache.cxf.services" additivity="false" level="info">
+        <appender-ref ref="ASYNC_APPENDER_CONSOLE_AND_FILE"/>
+    </logger>
+    <!-- LOGGERS: END -->
+
+    <!-- APPENDERS: START -->
+    <root level="INFO">
+        <appender-ref ref="ASYNC_APPENDER_CONSOLE_AND_FILE"/>
+    </root>
+
+    <!-- Async appender for both console and file -->
+    <appender name="ASYNC_APPENDER_CONSOLE_AND_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="CONSOLE_APPENDER"/>
+        <appender-ref ref="SAVE-TO-FILE"/>
+    </appender>
+
+    <!-- Console appender configuration -->
+    <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Define log pattern for console -->
+            <pattern>%d{dd/MM/yyyy HH:mm:ss} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- File appender configuration -->
+    <appender name="SAVE-TO-FILE" class="ch.qos.logback.core.FileAppender">
+        <!-- Define the log file location -->
+        <file>${APP_LOG_PATH}/logback.log</file>
+        <!-- Append to existing log file -->
+        <append>true</append>
+        <!-- Flush immediately -->
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <!-- Define log pattern for file -->
+            <pattern>%d{HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Define the pattern for rolled log files -->
+            <!-- Rollover daily -->
+            <fileNamePattern>${APP_LOG_PATH}/archived/${APP_NAME}-log.%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <!-- Define file naming and triggering policy -->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- Set maximum file size -->
+                <maxFileSize>1KB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- APPENDERS: END -->
+</configuration>

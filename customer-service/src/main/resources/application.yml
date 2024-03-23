@@ -1,0 +1,26 @@
+server:
+  port: 8184
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:15432/mydatabase?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true
+    username: admin
+    password: root
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: ALWAYS
+      platform: postgres
+      schema-locations: classpath:init-schema.sql
+      data-locations: classpath:init-data.sql
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop # create and drop table, good for testing, production set to none or comment it
+    show-sql: true
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgresPlusDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgresPlusDialect
+        show-sql: true

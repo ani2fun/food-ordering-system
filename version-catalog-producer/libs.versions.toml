@@ -1,0 +1,75 @@
+####################################### [VERSIONS] ##################################
+[versions]
+# Here Camel case is used
+kotlinVersion = "1.9.22"
+springBootVersion = "3.2.3"
+springCloudVersion = "2023.0.0"
+ktlintVersion = "12.1.0"
+mockitoKotlinVersion = "5.2.1"
+openApiGeneratorVersion = "7.4.0"
+keycloakVersion = "24.0.1"
+junitVersion = "5.10.2"
+assertjVersion = "3.25.3"
+testcontainersVersion = "1.19.7"
+gsonVersion = "2.10.1"
+findbugs = "3.0.2"
+avroVersion = "1.11.3"
+springKafkaVersion = "3.1.2"
+jakartaAnnotationApiVersion = "2.1.1"
+lombok = "1.18.30"
+davidmc24GradlePluginVersion = "1.9.1"
+
+
+# --- NOTE: Versions Only Below This Block ---
+# Some transitive dependencies, like "org.apache.kafka:kafka-clients:7.5.1-ccs," is failing to fetch when mentioned via accessor methods.
+# To resolve this, library dependencies is specified in their respective build files.
+# You can use the following code block as a reference:
+#   `implementation("io.confluent:kafka-avro-serializer:${libs.versions.kafkaAvroSerializerVersion.get()}")`
+kafkaAvroSerializerVersion = "7.5.1"
+# --------------------------------------------
+
+##################################### [PLUGINS] ########################################
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlinVersion" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springBootVersion" }
+avro-generator = { id = "com.github.davidmc24.gradle.plugin.avro", version.ref = "davidmc24GradlePluginVersion" }
+
+##################################### [LIBARARIES] #####################################
+[libraries]
+### snake-case format used to define the libs
+# PLUGIN LIBARARIES
+spring-boot-gradle-plugin = { group = "org.springframework.boot", name = "spring-boot-gradle-plugin", version.ref = "springBootVersion" }
+kotlin-jvm-gradle-plugin = { group = "org.jetbrains.kotlin.jvm", name = "org.jetbrains.kotlin.jvm.gradle.plugin", version.ref = "kotlinVersion" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinVersion" }
+ktlint-plugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintVersion" }
+openapi-generator-gradle-plugin = { module = "org.openapitools:openapi-generator-gradle-plugin", version.ref = "openApiGeneratorVersion" }
+# https://mvnrepository.com/artifact/com.github.davidmc24.gradle.plugin.avro/com.github.davidmc24.gradle.plugin.avro.gradle.plugin/1.9.1
+avro-generator-gradle-plugin = { group = "com.github.davidmc24.gradle.plugin.avro", name = "com.github.davidmc24.gradle.plugin.avro.gradle.plugin", version.ref = "davidmc24GradlePluginVersion" }
+
+# NORMAL LIBARARIES
+kotlin-allopen = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlinVersion" }
+kotlin-noarg = { module = "org.jetbrains.kotlin:kotlin-noarg", version.ref = "kotlinVersion" }
+
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlinVersion" }
+keycloak-admin-client = { module = "org.keycloak:keycloak-admin-client", version.ref = "keycloakVersion" }
+apache-avro = { module = "org.apache.avro:avro", version.ref = "avroVersion" }
+kafka-spring = { group = "org.springframework.kafka", name = "spring-kafka", version.ref = "springKafkaVersion" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
+jakarta-annotation-api = { group = "jakarta.annotation", name = "jakarta.annotation-api", version.ref = "jakartaAnnotationApiVersion" }
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+
+google-code-findbugs = { group = "com.google.code.findbugs", name = "jsr305", version.ref = "findbugs" }
+
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitVersion" }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junitVersion" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junitVersion" }
+junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitVersion" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertjVersion" }
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainersVersion" }
+testcontainers-junit5 = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainersVersion" }
+
+#################################### [BUNDLES] ############################################
+[bundles]
+testcontainersJunit = ["testcontainers", "testcontainers-junit5"]
+junit-bundle = ["junit-jupiter", "junit-jupiter-api", "junit-jupiter-engine", "junit-jupiter-params"]

@@ -1,0 +1,178 @@
+openapi: 3.0.3
+info:
+  title: Order Service API
+  version: 1.0.0
+  description: This is a service to handle rest api http requests for managing orders.
+  termsOfService: https://www.kakde.eu/terms/
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    name: Aniket Kakde
+    email: a.r.kakde@gmail.com
+externalDocs:
+  description: Find out more about this API
+  url: https://github.com/ani2fun/food-ordering-system
+
+servers:
+  - url: https://api.{env}.aws-dev.kakde.eu
+    variables:
+      env:
+        default: ${ENV_NAME}
+        enum:
+          - dev
+          - staging
+          - prod
+
+tags:
+  - name: order-service
+    description: Everything about handling Order Operations
+  - name: payment-service
+    description: Everything about handling Payments Operations
+  - name: restaurant-service
+    description: Everything about handling Restaurant Operations
+
+paths:
+  /order-service/v1/orders:
+    post:
+      tags:
+        - order-service
+      operationId: createOrder
+      summary: Place a new food order
+      description: Create new Order
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderCommand'
+        required: true
+      responses:
+        '200':
+          description: Create Order Successful response
+          content:
+            "application/json":
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
+
+  /order-service/v1/orders/{trackingId}:
+    get:
+      tags:
+        - order-service
+      operationId: trackOrder
+      description: Find order by tracking id
+      parameters:
+        - in: path
+          name: trackingId
+          required: true
+          description: Tracking ID of the order
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Track Order Successful response
+          content:
+            "application/json":
+              schema:
+                $ref: '#/components/schemas/TrackOrderResponse'
+
+components:
+  schemas:
+    CreateOrderCommand:
+      type: object
+      properties:
+        customerId:
+          type: string
+          pattern: '^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$'
+          description: It's of type UUID (For Example -> '43708cb3-85f6-4c38-89e4-08e4a04a4521')
+        restaurantId:
+          type: string
+          pattern: '^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$'
+          description: It's of type UUID (For Example -> '43708cb3-85f6-4c38-89e4-08e4a04a4521')
+        price:
+          type: number
+          format: double
+          description: Total price of the order
+        OrderItem:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        OrderAddress:
+          type: object
+          items:
+            $ref: '#/components/schemas/OrderAddress'
+
+    CreateOrderResponse:
+      type: object
+      properties:
+        trackingId:
+          type: string
+          pattern: '^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$'
+          description: It's of type UUID (For Example -> '43708cb3-85f6-4c38-89e4-08e4a04a4521')
+        orderStatus:
+          type: string
+          enum: [ PENDING, PAID, APPROVED, CANCELLING, CANCELLED ]
+        message:
+          type: string
+
+    TrackOrderResponse:
+      type: object
+      properties:
+        trackingId:
+          type: string
+          pattern: '^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$'
+          description: It's of type UUID (For Example -> '43708cb3-85f6-4c38-89e4-08e4a04a4521')
+        orderStatus:
+          type: string
+          enum: [ PENDING, PAID, APPROVED, CANCELLING, CANCELLED ]
+        failureMessages:
+          type: string
+
+    OrderItem:
+      type: object
+      properties:
+        productId:
+          type: string
+          pattern: '^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$'
+          description: It's of type UUID (For Example -> '43708cb3-85f6-4c38-89e4-08e4a04a4521')
+        quantity:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 50
+          description: Minimum value is 1 and maximum value is 50
+        price:
+          type: number
+          format: double
+          description: Price of the single item
+        subTotal:
+          type: number
+          format: double
+          description: Sub total price = (Single Item * Quantity)
+
+    OrderAddress:
+      type: object
+      properties:
+        street:
+          type: string
+          minLength: 5
+          maxLength: 50
+        postalCode:
+          type: string
+          minLength: 5
+          maxLength: 10
+        city:
+          type: string
+          minLength: 1
+          maxLength: 50
+        country:
+          type: string
+          minLength: 1
+          maxLength: 50
+
+
+
+
+
+

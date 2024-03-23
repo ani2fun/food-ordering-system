@@ -1,0 +1,48 @@
+version: '3.8'
+
+volumes:
+  postgres-data:
+  pgadmin-data:
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres_container
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      PGDATA: "/data/postgres"
+    volumes:
+      #      - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/data/postgres
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+    ports:
+      - "15432:5432"
+    networks:
+      - ${GLOBAL_NETWORK:-microservice-network}
+
+  pgadmin:
+    image: dpage/pgadmin4:7.8
+    container_name: pgadmin4_container
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ./docker_pgadmin_servers.json:/pgadmin4/servers.json
+    ports:
+      - "15433:80"
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "/bin/echo 'postgres:5432:*:admin:root' > /tmp/pgpassfile && chmod 600 /tmp/pgpassfile && /entrypoint.sh"
+      #      here we specified username=admin and password=root
+    networks:
+      - ${GLOBAL_NETWORK:-microservice-network}

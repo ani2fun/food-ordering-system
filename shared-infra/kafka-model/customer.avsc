@@ -1,0 +1,35 @@
+{
+  "namespace": "com.food.ordering.system.kafka.order.avro.model",
+  "type": "record",
+  "name": "CustomerAvroModel",
+  "fields": [
+    {
+      "name": "id",
+      "type": {
+        "namespace": "com.food.ordering.system.kafka.order.avro.model",
+        "type": "string"
+      }
+    },
+    {
+      "name": "username",
+      "type": {
+        "namespace": "com.food.ordering.system.kafka.order.avro.model",
+        "type": "string"
+      }
+    },
+    {
+      "name": "firstName",
+      "type": {
+        "namespace": "com.food.ordering.system.kafka.order.avro.model",
+        "type": "string"
+      }
+    },
+    {
+      "name": "lastName",
+      "type": {
+        "namespace": "com.food.ordering.system.kafka.order.avro.model",
+        "type": "string"
+      }
+    }
+  ]
+}
