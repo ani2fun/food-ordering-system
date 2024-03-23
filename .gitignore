@@ -30,7 +30,7 @@ out/
 **/*.DS_Store
 
 ### LOGS ###
-**/logs/
+*.log
 /version-catalog-producer/gradle.properties
 /gradle.properties
 

@@ -33,6 +33,32 @@ sonatypePassword=<SONATYPE_PASSWORD>
 
 ### Some useful commands
 
+#### Run Food Ordering System from command line:
+```
+./gradlew :customer-service:bootRun
+
+./gradlew :order-service:app-container:bootRun
+
+./gradlew :restaurant-service:app-container:bootRun
+
+./gradlew :restaurant-service:app-container:bootRun
+```
+
+### RUN AS SPRING BOOT JAR
+```bash
+./gradlew :order-service:app-container:bootJar
+```
+```bash
+java -jar ./order-service/app-container/build/libs/app-container-1.0.0.jar
+```
+
+#### Build
+```
+./gradlew :shared:common-domain:build
+
+./gradlew :order-service:app-container:build
+```
+
 #### Check projects inside specific composite build
 
 ```bash
@@ -57,25 +83,6 @@ Included builds
 \--- Included build ':version-catalog-producer'
 ```
 
-#### Build
-```
-./gradlew :shared:common-domain:build
-
-./gradlew :order-service:app-container:build
-```
-
-#### Run as springboot app:
-```
-./gradlew :order-service:clean && ./gradlew :order-service:app-container:bootRun
-```
-
-### RUN AS SPRING BOOT JAR
-```bash
-./gradlew :order-service:app-container:bootJar
-```
-```bash
-java -jar ./order-service/app-container/build/libs/app-container-1.0.0.jar
-```
 
 #### Other MacOS specific commands:
 - Removing all build dirs manually  

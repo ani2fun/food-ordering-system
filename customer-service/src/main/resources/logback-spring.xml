@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="1 seconds">
 
     <!-- PROPERTIES: START -->
-    <property name="APP_NAME" value="order-service"/>
+    <property name="APP_NAME" value="customer-service"/>
     <!-- Define the root directory for development -->
     <property name="DEV_HOME" value="."/>
     <!-- PROPERTIES: END -->
@@ -12,12 +12,12 @@
     <logger name="org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod" level="DEBUG"/>
 
     <!-- EppApi logs -->
-    <logger name="order-service" level="DEBUG"/>
+    <logger name="customer-service" level="DEBUG"/>
 
     <!-- Incoming request headers -->
     <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/>
     <!-- Save to file specific logger -->
-    <logger name="com.food.ordering.system.order.service" level="DEBUG">
+    <logger name="com.food.ordering.system.customer.service" level="DEBUG">
         <appender-ref ref="SAVE-TO-FILE"/>
     </logger>
     <!-- Apache CXF services logs -->
